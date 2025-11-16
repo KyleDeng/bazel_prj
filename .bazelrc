@@ -1,0 +1,75 @@
+# Bazel 配置文件
+# 项目路径: /home/huatuo/github/bazel_prj
+
+# ========================================
+# 通用设置
+# ========================================
+
+# 启用彩色输出
+build --color=yes
+test --color=yes
+query --color=yes
+
+# 显示时间戳
+# build --show_timestamps
+
+# 使用所有可用 CPU 核心
+# build --jobs=auto
+
+# 显示目标完成进度
+build --show_progress_rate_limit=0.5
+
+# 失败时显示详细命令
+build --verbose_failures
+build --explain=explain.log
+
+# ========================================
+# 配置预设 (使用方式: bazel build --config=xxx)
+# ========================================
+
+# # 详细模式 - 显示所有编译命令
+# # 用法: bazel build --config=verbose //apps/app_huatuo:app_huatuo
+# build:verbose -s
+# build:verbose --announce_rc
+# build:verbose --verbose_failures
+#
+# # Debug 模式 - 包含调试符号，不优化
+# # 用法: bazel build --config=debug //apps/app_huatuo:app_huatuo
+# build:debug -c dbg
+# build:debug --copt=-g
+# build:debug --copt=-O0
+# build:debug --strip=never
+#
+# # Release 模式 - 优化编译，移除调试信息
+# # 用法: bazel build --config=release //apps/app_huatuo:app_huatuo
+# build:release -c opt
+# build:release --copt=-O2
+# build:release --strip=always
+
+# 静默模式 - 最少输出
+# 用法: bazel build --config=quiet //apps/app_huatuo:app_huatuo
+build:quiet --noshow_progress
+build:quiet --noshow_loading_progress
+
+# ========================================
+# 测试相关配置
+# ========================================
+
+# 测试失败时显示详细输出
+test --test_output=errors
+
+# 显示测试摘要
+test --test_summary=detailed
+
+# 测试超时设置（单位：秒）
+test --test_timeout=60
+
+# ========================================
+# 其他优化
+# ========================================
+
+# 启用增量编译
+build --experimental_reuse_sandbox_directories
+
+# 本地缓存位置（可选，默认在 ~/.cache/bazel）
+# build --disk_cache=~/.cache/bazel-disk-cache

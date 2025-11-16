@@ -5,8 +5,10 @@
  * @version 1.0.0
  * @date 2021-04-07
  */
+#include <stdio.h>
 #include "operate_err_code.h"
 #include "hal_key.h"
+#include "global_config.h"
 #include "sdk_key.h"
 #include "sdk_led.h"
 
@@ -30,6 +32,7 @@ operate_t sdk_key_set_status(sdk_key_num_t n, sdk_key_status_t s)
 
     sdk_key_list[n-1] = s;
     hal_key_set(n, s);
+    printf("Key_number is %d\n", KEY_NUMBER);
 
     return OPERATE_OK;
 }

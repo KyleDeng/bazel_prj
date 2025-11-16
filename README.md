@@ -100,3 +100,8 @@ dot -Tpng file_deps.dot -o my_app_deps.png
 Bazel并不是使用python语言，而是Starlark语言（https://github.com/bazelbuild/starlark）
 
 有些语法比较相似但不完全一致
+
+
+## 关于menuconfig
+
+Bazel在构建过程中不允许这种不确定的过程出现
