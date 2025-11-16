@@ -1,0 +1,86 @@
+# =========================
+# Bazel 构建系统
+# =========================
+
+# Bazel 输出根目录（符号链接）
+bazel-*
+.bazelrc.user
+
+# Bazel 内部工作目录（实际存储位置）
+.output/
+.bazel/
+
+# 锁定文件（可选：有些团队提交 bazel.lock，有些忽略）
+# 如果你希望锁定依赖版本，请取消下面一行的注释以 **保留** bazel.lock：
+*bazel.lock
+
+# =========================
+# 构建产物（通常不应提交）
+# =========================
+
+# 通用二进制/库文件
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.bin
+
+# 调试符号文件
+*.dSYM/
+*.pdb
+
+# =========================
+# 编辑器与 IDE
+# =========================
+
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# IntelliJ / CLion / Android Studio
+.idea/
+*.iml
+*.iws
+
+# Vim
+*.swp
+*.swo
+
+# Emacs
+*~
+\#*\#
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# =========================
+# 操作系统与通用
+# =========================
+
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+$RECYCLE.BIN/
+
+# =========================
+# 日志与临时文件
+# =========================
+
+*.log
+*.tmp
+*.temp/output
+
+# =========================
+# 用户自定义
+# =========================
+
+.config*
+output
