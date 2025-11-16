@@ -73,6 +73,116 @@ bazel fetch     # 下载依赖
 
 ```
 
+### 单元测试 🧪
+
+项目使用 Google Test 框架进行单元测试，通过 Bazel 进行管理和运行。
+
+#### 运行测试
+
+```shell
+# 运行所有 SDK 模块的测试
+bazel test //sdk/...
+
+# 运行单个模块的测试
+bazel test //sdk/led/ut:led_test
+bazel test //sdk/key/ut:key_test
+
+# 显示所有测试输出（包括成功的测试）
+bazel test //sdk/led/ut:led_test --test_output=all
+
+# 只显示失败的测试输出
+bazel test //sdk/... --test_output=errors
+
+# 实时显示测试输出
+bazel test //sdk/... --test_output=streamed
+```
+
+#### 过滤和控制测试
+
+```shell
+# 运行特定的测试用例（使用 gtest_filter）
+bazel test //sdk/led/ut:led_test --test_arg=--gtest_filter="TestLedInit.*"
+
+# 重复运行测试多次
+bazel test //sdk/led/ut:led_test --test_arg=--gtest_repeat=3
+
+# 运行被禁用的测试
+bazel test //sdk/led/ut:led_test --test_arg=--gtest_also_run_disabled_tests
+
+# 显示测试执行时间
+bazel test //sdk/... --test_arg=--gtest_print_time=1
+```
+
+#### 调试测试
+
+```shell
+# 使用 gdb 调试测试
+bazel test //sdk/led/ut:led_test --run_under=gdb
+
+# 使用 valgrind 检测内存问题
+bazel test //sdk/led/ut:led_test --run_under=valgrind
+
+# 详细模式（显示编译命令和测试输出）
+bazel test //sdk/led/ut:led_test -s --test_output=all
+```
+
+#### 测试覆盖率
+
+```shell
+# 收集单个模块的覆盖率（包含源代码覆盖率）
+bazel coverage //sdk/led/ut:led_test \
+    --combined_report=lcov \
+    --instrumentation_filter="//sdk/led[/:]"
+
+# 收集所有 SDK 模块的覆盖率
+bazel coverage //sdk/... \
+    --combined_report=lcov \
+    --instrumentation_filter="//sdk/...[/:]"
+
+# 生成 HTML 可视化报告
+genhtml bazel-out/_coverage/_coverage_report.dat \
+    -o coverage_html \
+    --title "SDK Coverage Report"
+
+# 在浏览器中打开报告
+explorer.exe coverage_html/index.html
+
+# 或使用快捷脚本（推荐）
+./scripts/coverage.sh //sdk/...
+```
+
+**覆盖率文件位置：**
+- LCOV 数据：`bazel-out/_coverage/_coverage_report.dat`
+- HTML 报告：`coverage_html/index.html`
+
+**查看覆盖率摘要：**
+```shell
+# 查看文本摘要
+lcov --summary bazel-out/_coverage/_coverage_report.dat
+```
+
+
+#### 与 Makefile 命令对照
+
+| Make 命令 | Bazel 等价命令 | 说明 |
+|-----------|---------------|------|
+| `make ut` | `bazel build //sdk/...` | 构建测试 |
+| `make ut_run` | `bazel test //sdk/...` | 运行所有测试 |
+| `make ut_run TEST=led` | `bazel test //sdk/led/ut:led_test` | 运行指定模块测试 |
+| `make ut_run FILTER="TestLedInit.*"` | `bazel test //sdk/led/ut:led_test --test_arg=--gtest_filter="TestLedInit.*"` | 过滤测试用例 |
+| `make ut_run GDB=1` | `bazel test //sdk/led/ut:led_test --run_under=gdb` | 调试测试 |
+| `make ut_run COV=1` | `bazel coverage //sdk/...` | 收集覆盖率 |
+
+#### 测试依赖
+
+项目的单元测试依赖以下框架：
+
+- **Google Test** - 单元测试框架（通过 MODULE.bazel 管理）
+- **Google Mock** - Mock 框架（Google Test 自带）
+- **mockcpp** - C++ Mock 库（位于 `ut/externals/mockcpp/`）
+
+```
+
 ### 生成依赖图
 
 ```shell
